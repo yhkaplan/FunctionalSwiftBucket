@@ -203,3 +203,15 @@ infix operator |> : LeftApplyPrecedence
 func |> <T, U>(value: T, function: ((T) -> U)) -> U {
     return function(value)
 }
+
+precedencegroup FunctionCompositionPrecedence {
+    associativity: right
+    higherThan: LeftApplyPrecedence
+}
+
+infix operator >>>: FunctionCompositionPrecedence
+
+// Compose two functions left to right
+func >>><A, B, C>(f: @escaping (A) -> B, g: @escaping (B) -> C) -> (A) -> C {
+    return { (a: A) -> C in g(f(a)) }
+}
