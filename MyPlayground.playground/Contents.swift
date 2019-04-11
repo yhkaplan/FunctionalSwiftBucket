@@ -191,3 +191,15 @@ func <*><A, B>(optionalTransform: ((A) -> B)?, optionalValue: A?) -> B? {
 func addOptionals(x: Int?, y: Int?) -> Int? {
     return curry(+) <*> x <*> y
 }
+
+precedencegroup LeftApplyPrecedence {
+    associativity: left
+    higherThan: AssignmentPrecedence
+    lowerThan: TernaryPrecedence
+}
+
+infix operator |> : LeftApplyPrecedence
+
+func |> <T, U>(value: T, function: ((T) -> U)) -> U {
+    return function(value)
+}
